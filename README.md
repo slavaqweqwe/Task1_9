@@ -37,17 +37,20 @@ end
 
 %% Hamming
 clear;
-a1=[0 0 0 0 0 0 0 1]
-a2=[0 0 0 0 0 0 1 0]
-a3=[0 0 0 0 0 0 1 1]
-a4=[0 0 0 0 0 1 0 0]
-a5=[0 0 0 0 0 1 0 1]
+a(1,:)=[1 0 0 0 0 0 0 1];%129
+a(2,:)=[1 1 1 1 1 1 1 1];%255
+a(3,:)=[0 0 0 0 1 1 1 1];%240
+a(4,:)=[0 0 0 0 0 0 0 0];%0
 
 
-num_simbols=4;
-
-code(7*2*num_simbols:-1:1) = encode ([a4, a3, a2, a1], 7, 4, 'hamming/binary')
-
+mat=[1 0 0 0 1 0 1; 0 1 0 0 1 1 1; 0 0 1 0 1 1 0; 0 0 0 1 0 1 1];
+res=[];
+for i=1:4
+    res=[res mod(a(i,1:4)*mat,2)];
+    res=[res mod(a(i,5:end)*mat,2)];
+end
+code=res;
+num_simbols=size(a,1);
 for j=0:fix(7*2*num_simbols/8)-1
 R1=0;
 for i=0:7

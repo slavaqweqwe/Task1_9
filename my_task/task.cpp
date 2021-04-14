@@ -27,7 +27,7 @@ using namespace testspace;
                 x = 15 & data[i / 2];
             }
             else {
-                x = (240 & data[i / 2]) << 4;
+                x = (240 & data[i / 2]) >> 4;
             }
 
             x = x | (sum4BitsMod2(x & 7) << 4) | (sum4BitsMod2(x & 14) << 5) | (sum4BitsMod2(x & 11) << 6);
