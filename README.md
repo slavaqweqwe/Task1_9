@@ -13,56 +13,26 @@ std::vector<uint8_t> Encode(std::vector<uint8_t> const& data);
 
 
 
-Результаты в тестах сравнивались с резульатами из маталаба, полученными скриптом снизу
+s=de2bi([240, 127, 255, 0, 90],8)
+s2=bi2de(s);
 
-
-%% Diff
-a1=[1 0 0 0 0 0 0 0]
-a2=[0 1 0 0 0 0 0 0]
-a3=[1 1 0 0 0 0 0 0]
-a4=[0 0 1 0 0 0 0 0]
-
-diffEnc = comm.DifferentialEncoder;
-
-
-data = [a1, a2, a3, a4]';
-encData = diffEnc(data)
-for j=0:length(data)/8-1
-R1=0;
-for i=0:7
-R1=R1+encData(i+1+j*8)*2^i;
-end
-R1
+out=zeros(size(s,1),14);
+for i=1:size(s,1)
+    a1=mod(sum(s(i,[1,3,4])),2);
+    a2=mod(sum(s(i,[1,2,3])),2);
+    a3=mod(sum(s(i,[2,3,4])),2);
+    out(i,1:7)=[a1 a2 a3 s(i,[1:4])];
+    
+    a1=mod(sum(s(i,[5,7,8])),2);
+    a2=mod(sum(s(i,[5,6,7])),2);
+    a3=mod(sum(s(i,[6,7,8])),2);
+    out(i,8:14)=[a1 a2 a3 s(i,[5:8])]
 end
 
-%% Hamming
-clear;
-a(1,:)=[1 0 0 0 0 0 0 1];%129
-a(2,:)=[1 1 1 1 1 1 1 1];%255
-a(3,:)=[0 0 0 0 1 1 1 1];%240
-a(4,:)=[0 0 0 0 0 0 0 0];%0
+out=out';
+ out=out(1:end)
 
-
-mat=[1 0 0 0 1 0 1; 0 1 0 0 1 1 1; 0 0 1 0 1 1 0; 0 0 0 1 0 1 1];
-res=[];
-for i=1:4
-    res=[res mod(a(i,1:4)*mat,2)];
-    res=[res mod(a(i,5:end)*mat,2)];
+for i=1:length(out)/8
+    res(i)=bi2de(out(1+8*(i-1):8*(i)))
 end
-code=res;
-num_simbols=size(a,1);
-for j=0:fix(7*2*num_simbols/8)-1
-R1=0;
-for i=0:7
-R1=R1+code(i+1+j*8)*2^i;
-end
-R1
-end
-
-if (length(code) - (fix(7*2*num_simbols/8)*8+1)>=0)
-R1=0;
-for i=0:length(code) - (fix(7*2*num_simbols/8)*8+1)
-R1=R1+code(i+fix(7*2*num_simbols/8)*8+1)*2^i;
-end
-R1
-end
+res
