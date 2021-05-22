@@ -6,7 +6,7 @@ TEST(task_lib_test, Hamming)
 {
     Hamming74 D;
     std::vector<uint8_t> in = { 1, 2, 3, 4 };
-    std::vector<uint8_t> teor = { 81, 128, 28, 48, 2, 208, 0 };
+    std::vector<uint8_t> teor = { 11, 128, 5, 208, 1, 156, 0 };
     std::vector<uint8_t> En = D.Encode(in);
     ASSERT_EQ(En, teor);
 }
@@ -15,7 +15,7 @@ TEST(task_lib_test, Hamming2)
     Hamming74 Ham;
     ICoder* pICoder = &Ham;
     std::vector<uint8_t> in = { 1, 2, 3, 4 };
-    std::vector<uint8_t> teor = { 81, 128, 28, 48, 2, 208, 0 };
+    std::vector<uint8_t> teor = { 11, 128, 5, 208, 1, 156, 0 };
     std::vector<uint8_t> En = pICoder->Encode(in);
     ASSERT_EQ(En, teor);
 }

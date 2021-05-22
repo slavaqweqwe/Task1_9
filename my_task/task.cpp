@@ -5,7 +5,7 @@ using namespace testspace;
 
 uint8_t Hamming74::sum4BitsMod2(uint8_t x)
 {
-    return ((x & 1) ^ ((x & 2) >> 1) ^ ((x & 4) >> 2) ^ ((x & 8) >> 3));
+    return (((x & 8) >> 3) ^ ((x & 16) >> 4) ^ ((x & 32) >> 5) ^ ((x & 64) >> 6));
 }
 
 std::vector<uint8_t> Hamming74::Encode(std::vector<uint8_t> const& data) {
@@ -24,13 +24,13 @@ std::vector<uint8_t> Hamming74::Encode(std::vector<uint8_t> const& data) {
     for (int i = 0; i < data.size() * 2; i++)
     {
         if (i % 2 == 0) {
-            x = 15 & data[i / 2];
+            x = (15 & data[i / 2]) << 3;
         }
         else {
-            x = (240 & data[i / 2]) >> 4;
+            x = (240 & data[i / 2]) >> 1;
         }
 
-        x = x | (sum4BitsMod2(x & 7) << 4) | (sum4BitsMod2(x & 14) << 5) | (sum4BitsMod2(x & 11) << 6);
+        x = x | sum4BitsMod2(x & 104) | (sum4BitsMod2(x & 56) << 1) | (sum4BitsMod2(x & 112) << 2);
 
         out_data[NumbRecordedBits / 8] = out_data[NumbRecordedBits / 8] | (x << (NumbRecordedBits % 8));
 
