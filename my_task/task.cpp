@@ -45,7 +45,7 @@ std::vector<uint8_t> Hamming74::Encode(std::vector<uint8_t> const& data) {
 
     return out_data;
 }
-
+Hamming74::~Hamming74() {}
 
 
 
@@ -70,4 +70,5 @@ std::vector<uint8_t> DiffCode::Encode(std::vector<uint8_t> const& data) {
 
     }
     return out_data;
-};
+}
+DiffCode::~DiffCode() {};

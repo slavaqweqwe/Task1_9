@@ -8,6 +8,7 @@ namespace testspace {
     {
     public:
         virtual std::vector<uint8_t> Encode(std::vector<uint8_t> const& data) = 0;
+        virtual ~ICoder() {};
     };
 
 
@@ -17,6 +18,7 @@ namespace testspace {
         uint8_t sum4BitsMod2(uint8_t x);
     public:
         std::vector<uint8_t> Encode(std::vector<uint8_t> const& data) override;
+        ~Hamming74() override;
     };
 
 
@@ -25,6 +27,7 @@ namespace testspace {
 
     public:
         virtual std::vector<uint8_t> Encode(std::vector<uint8_t> const& data) override;
+        ~DiffCode() override;
     };
 
 
